@@ -1,0 +1,51 @@
+- hosts: "*"
+  gather_facts: no
+
+  tasks:
+  - name: Include config.yaml
+    include_vars: config.yaml
+
+  - name: Install Python
+    win_package:
+      path: C:\vagrant\windows\dependencies\python-2.7.16.msi
+      arguments: ADDLOCAL=ALL
+
+  - name: Install Python packages
+    win_command: pip install -r C:\vagrant\windows\python-requirements.txt
+    args:
+      creates: C:\Python27\lib\site-packages\dragonfly\
+
+  - name: Install Dragon
+    win_package:
+      path: C:\vagrant\windows\dragon\Dragon 14.msi
+      arguments: SERIALNUMBER={{dragon_serialnumber}}
+    register: dragon
+
+  - name: Link dragon-profiles
+    win_shell: rd C:\ProgramData\Nuance\NaturallySpeaking14\Users && mklink /D C:\ProgramData\Nuance\NaturallySpeaking14\Users C:\vagrant\dragon-profiles
+    args:
+      executable: cmd
+    when: dragon.changed
+
+  - name: Link dragon-admin.bat to Desktop
+    win_shell: mklink C:\Users\Public\Desktop\dragon-admin.bat C:\vagrant\windows\scripts\dragon-admin.bat
+    args:
+      executable: cmd
+    when: dragon.changed
+
+  - name: Install Microsoft Visual C++ 2010 Redistributable Package
+    win_package:
+      path: C:\vagrant\windows\dependencies\vcredist_x86.exe
+      arguments: /q
+      product_id: '{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}'
+
+  - name: Install NatLink
+    win_package:
+      path: C:\vagrant\windows\dependencies\setup-natlink-4.1whiskey3.exe
+      arguments: /verysilent
+      creates_path: C:\NatLink\
+    register: natlink
+
+  - name: Enable NatLink
+    win_command: python C:\NatLink\NatLink\confignatlinkvocolaunimacro\natlinkconfigfunctions.py -e -n C:\vagrant\grammars
+    when: natlink.changed

@@ -1,0 +1,10 @@
+[tool.poetry]
+name = "aenea-box"
+version = "0.1.0"
+authors = ["Simon Hengel <sol@typeful.net>"]
+
+[tool.poetry.dependencies]
+ansible = "*"
+jinja2 = "*"
+pyyaml = "*"
+pywinrm = "*"
