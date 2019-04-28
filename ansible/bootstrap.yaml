@@ -21,3 +21,8 @@
       path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
       name: AutoAdminLogon
       data: 1
+
+  - name: Workaround for shared folder initially not being available when booting without vagrant
+    win_mapped_drive:
+      letter: Z
+      path: \\vboxsvr\vagrant
