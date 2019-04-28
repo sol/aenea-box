@@ -1,10 +1,10 @@
 VBOX_ID=.vagrant/machines/default/virtualbox/id
 
-start_x11: aenea/ grammars/ grammars/aenea.json grammars/aenea create
+start_x11: create
 	VBoxManage startvm `cat $(VBOX_ID)` --type headless
 	make server_x11
 
-create: ansible/config.yaml dragon-profiles/ dependencies $(VBOX_ID)
+create: ansible/config.yaml dragon-profiles/ dependencies aenea/ grammars/ grammars/aenea.json grammars/aenea $(VBOX_ID)
 
 $(VBOX_ID):
 	make bootstrap
