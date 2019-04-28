@@ -1,6 +1,6 @@
 VBOX_ID=.vagrant/machines/default/virtualbox/id
 
-start_x11: aenea/ grammars/aenea.json grammars/aenea create
+start_x11: aenea/ grammars/ grammars/aenea.json grammars/aenea create
 	VBoxManage startvm `cat $(VBOX_ID)` --type headless
 	make server_x11
 
@@ -36,12 +36,14 @@ aenea/:
 	git clone git@github.com:sol/aenea.git
 	cd aenea && python generate_security_token.py
 
+grammars/:
+	mkdir grammars
+	cp aenea/client/_hello_world_*.py grammars
+
 grammars/aenea:
-	mkdir -p grammars
 	ln -s ../aenea/client/aenea $@
 
 grammars/aenea.json:
-	mkdir -p grammars
 	cp aenea/aenea.json.example $@
 	sed -i 's/C:\\\\NatLink\\\\NatLink\\\\MacroSystem/C:\\\\vagrant\\\\grammars/' $@
 

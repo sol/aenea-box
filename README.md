@@ -73,9 +73,10 @@ Running `C:\vagrant\windows\scripts\dragon-admin.bat` allows you to disable
 things like "updates at startup", "Accuracy Tuning" and "Data Collection"
 globally.  I don't know of a way to automate this; contributions are welcome!
 
-To test the setup copy `aenea/client/_hello_world_aenea.py` into `grammars/`
-and try it as described in the [Aenea
-README](https://github.com/dictation-toolbox/aenea#readme).
+To test the setup say "test hello world remote grammar" as described in the
+[Aenea README](https://github.com/dictation-toolbox/aenea#readme).
+
+Delete `grammars/_hello_world_*` and place your own grammars into `grammars/`.
 
 NOTE: You will see a "Microsoft Visual C++ Runtime Library" error (R6034) when
 you start Dragon.  It's safe to ignore this error, just click "OK".  One way to
